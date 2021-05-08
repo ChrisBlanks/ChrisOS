@@ -74,7 +74,7 @@ size_t strlen(const char* str){
 void terminalInitialize(void){
     terminal_row = 0;
     terminal_column = 0;
-    terminal_color = vgaEntryColor(VGA_COLOR_LIGHT_GREY,VGA_COLOR_BLACK);
+    terminal_color = vgaEntryColor(VGA_COLOR_LIGHT_CYAN,VGA_COLOR_BLACK);
     terminal_buffer = (uint16_t*) VGA_TEXT_MODE_BUFFER_ADDRESS;
 
     for(size_t y = 0; y < VGA_HEIGHT; y++){
@@ -95,6 +95,12 @@ void terminalPutEntryAt(char c, uint8_t color, size_t x, size_t y){
 }
 
 void terminalPutChar(char c){
+    if(c == '\n'){ //if newline character, advance to the next line
+        terminal_column = 0;
+        ++terminal_row;
+        return;
+    }
+
     terminalPutEntryAt(c,terminal_color, terminal_column,terminal_row);
     
     if(++terminal_column == VGA_WIDTH){ //handle if end of terminal horizontal bound
@@ -119,8 +125,12 @@ void terminalWriteString(const char* data){
 
 //Kernel Entry Point
 void kernel_main(void){
+    char* msg = "Hello, Kernel World!\n" 
+                "This will continue on for quite a while," 
+                "so that I can get a line break somewhere hahahahahahahahahaha\n";
+                
     terminalInitialize();
-    terminalWriteString("Hello, Kernel World!\n");
+    terminalWriteString(msg);
 }
 
 
