@@ -1,0 +1,5 @@
+#ignore build output
+bin/*.o
+bin/*.iso
+bin/isodir
+bin/*.bin
