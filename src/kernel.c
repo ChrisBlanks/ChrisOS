@@ -89,6 +89,25 @@ void terminalSetColor(uint8_t color){
     terminal_color = color;
 }
 
+void scrollTerminalDown(){
+
+    for(size_t y = 0; y < VGA_HEIGHT; y++){
+        for(size_t x = 0; x < VGA_WIDTH; x++){
+
+            const size_t index = y * VGA_WIDTH + x;
+            
+            if(y < VGA_HEIGHT - 1 ){ //copy row+1 into row
+                const size_t index_next_row = (y+1) * VGA_WIDTH + x; 
+                terminal_buffer[index] = terminal_buffer[index_next_row];
+            } else { //fill last row w/ spaces
+                terminal_buffer[index] = vgaEntry(' ', terminal_color); 
+            }
+        }
+    }
+
+    terminal_row =  VGA_HEIGHT - 1; //set position to last row
+}
+
 void terminalPutEntryAt(char c, uint8_t color, size_t x, size_t y){
     const size_t index = y * VGA_WIDTH + x;
     terminal_buffer[index] = vgaEntry(c,color);
@@ -97,7 +116,10 @@ void terminalPutEntryAt(char c, uint8_t color, size_t x, size_t y){
 void terminalPutChar(char c){
     if(c == '\n'){ //if newline character, advance to the next line
         terminal_column = 0;
-        ++terminal_row;
+
+        if(++terminal_row == VGA_HEIGHT){ //handle if end of terminal vertical bound
+            scrollTerminalDown();
+        }
         return;
     }
 
@@ -106,8 +128,8 @@ void terminalPutChar(char c){
     if(++terminal_column == VGA_WIDTH){ //handle if end of terminal horizontal bound
         terminal_column = 0;
 
-        if(++terminal_row == VGA_HEIGHT){
-            terminal_row = 0;
+        if(++terminal_row == VGA_HEIGHT){ //handle if end of terminal vertical bound
+            scrollTerminalDown();
         }
     }
 }
@@ -118,19 +140,72 @@ void terminalWrite(const char* data, size_t size){
     }
 }
 
+void terminalWriteColorful(const char* data, size_t size){
+    int current_color = VGA_COLOR_BLUE;
+
+    for(size_t i = 0; i < size; i++){
+        terminal_color = vgaEntryColor(current_color,VGA_COLOR_BLACK);
+        terminalPutChar(data[i]); 
+
+        if(++current_color > VGA_COLOR_WHITE){
+            current_color = VGA_COLOR_BLUE;
+        }
+    }
+}
+
 void terminalWriteString(const char* data){
     terminalWrite(data,strlen(data));
 }
 
+void renderOSASCIIArt(){
+    char* ascii_art = 
+   "  _____ _          _      ____   _____\n"
+   " / ____| |        (_)    / __ \\ / ____|\n"
+   "| |    | |__  _ __ _ ___| |  | | (___\n"  
+   "| |    | '_ \\| '__| / __| |  | |\\___ \n" 
+   "| |____| | | | |  | \\__ \\ |__| |____) |\n"
+   " \\_____|_| |_|_|  |_|___/\\____/|_____/ \n";
+
+    terminal_color = vgaEntryColor(VGA_COLOR_RED,VGA_COLOR_BLACK);
+    terminalWriteString(ascii_art);
+}
+
+void renderColorfulASCIIArt(){
+
+    char* ascii_art = 
+   "  _____ _          _      ____   _____\n"
+   " / ____| |        (_)    / __ \\ / ____|\n"
+   "| |    | |__  _ __ _ ___| |  | | (___\n"  
+   "| |    | '_ \\| '__| / __| |  | |\\___ \n" 
+   "| |____| | | | |  | \\__ \\ |__| |____) |\n"
+   " \\_____|_| |_|_|  |_|___/\\____/|_____/ \n";
+
+    terminalWriteColorful(ascii_art, strlen(ascii_art));
+
+}
 
 //Kernel Entry Point
 void kernel_main(void){
     char* msg = "Hello, Kernel World!\n" 
                 "This will continue on for quite a while," 
                 "so that I can get a line break somewhere hahahahahahahahahaha\n";
-                
+
+    char* long_msg = "1This will be a very long message that will hopefully test scrolling\n"
+                     "2second line: ffffffffffffffffffffffffffffffffffffffff\n"
+                     "3\n"
+                     "4\n5ffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                     "\n6a\n7b\n8c\n9d\n10e\n11f\n12g\n13h\n14i\n15j\n16k\n17l\n18m\n19n\n20o\n21p"
+                     "fffffffffffffffffffffffffffffffffffffffff"
+                     "\n22q\n23r\n24s\n25t\n26ffff\n27after everything";
+
     terminalInitialize();
-    terminalWriteString(msg);
+    renderOSASCIIArt();
+    renderColorfulASCIIArt();
+    
+    //test output
+    //terminalWriteString(msg);
+    //terminalWriteString(long_msg);
+    
 }
 
 
