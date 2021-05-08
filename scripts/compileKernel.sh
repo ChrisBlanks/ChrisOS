@@ -10,7 +10,7 @@ if [ "$#" -ne $NUM_OF_ARGS  ]; then
     printf "Illegal number of arguments. Num: {$#}\n"
     printf "Command Format: $CMD_FORMAT\n\n"
 
-    exit
+    exit 1
 fi
 
 KERNEL_SRC_LOCATION=$1
@@ -18,9 +18,15 @@ KERNEL_OUT_FILE_NAME=$2
 
 if [ ! -d $KERNEL_SRC_LOCATION ]; then
     printf "Kernel source code directory does not exist. Location: {$KERNEL_SRC_LOCATION}\n"
-    exit
+    exit 2
 fi
 
 $HOME/opt/cross/bin/i686-elf-gcc -c $KERNEL_SRC_LOCATION/*.c -o  $KERNEL_OUT_FILE_NAME.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+
+if [ $? -eq 0 ] ; then
+    printf "No compiling issues.\n"
+else 
+    exit 3
+fi
 
 printf "Done.\n\n"

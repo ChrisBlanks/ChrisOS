@@ -42,3 +42,9 @@ cp $OS_FILE_LOCATION $BOOT_DIR_LOCATION/$OS_FILE
 cp $GRUB_CONFIG_LOCATION $GRUB_DIR_LOCATION/$GRUB_FILE_NAME
 
 grub-mkrescue -o $OUTPUT_FILE $ISO_DIR_LOCATION
+
+if [ $? -eq 0 ] ; then
+    printf "No issues with creating ISO.\n"
+else 
+    exit 1
+fi
