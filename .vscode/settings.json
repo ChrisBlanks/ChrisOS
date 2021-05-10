@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "tty.h": "c",
+        "string.h": "c"
+    }
+}

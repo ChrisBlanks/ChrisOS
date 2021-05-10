@@ -3,3 +3,7 @@ bin/*.o
 bin/*.iso
 bin/isodir
 bin/*.bin
+
+*.iso
+isodir
+sysroot
