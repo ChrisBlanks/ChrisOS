@@ -26,3 +26,9 @@ export CC="$CC --sysroot=$SYSROOT"
 if echo "$HOST" | grep -Eq -- '-elf($|-)'; then
   export CC="$CC -isystem=$INCLUDEDIR"
 fi
+
+# compile options explanation:
+# -02             -> gcc performs nearly all supported optimizations to increase performance
+# -g              -> Tells the compiler to emit extra information for use by a debugger
+# --sysroot=dir   -> use 'dir' as the logical root directory for headers & libraries 
+# -isystem=dir    -> adds 'dir' to the list of directories to be searched for header files during preprocessing
