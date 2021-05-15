@@ -1,7 +1,7 @@
 # ChrisOS
 ## Author: ChrisB
 ---
-### Environment
+### Build Environment
 Kubuntu 20.04
 
 ---
