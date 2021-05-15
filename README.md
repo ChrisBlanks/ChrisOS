@@ -1,10 +1,16 @@
 # ChrisOS
 ## Author: ChrisB
 ---
+### Environment
+Kubuntu 20.04
+
+---
 ### Dependencies:
-- i686 gcc build system
-- i686 ld link system
+- i686 cross compiler build system (gcc & ld)
+  - Follow the instructions [here](https://wiki.osdev.org/GCC_Cross-Compiler)
 - qemu
+  - Acquire the newest version from following the instructions [here](https://www.qemu.org/download/)
+  
 ---
 
 ### Important scripts:
