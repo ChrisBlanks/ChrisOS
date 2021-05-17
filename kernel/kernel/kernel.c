@@ -4,10 +4,15 @@
 
 
 void displayOSDetails(){
+    //To-Do: Implement number formatting in printf
+    //uint16_t cursor_pos = cursorPosition();
+    //printf("Current cursor pos: %d",cursor_pos);
     printf("\n---  Operating System Details ---\n");
     printf("OS Name: ChrisOS\n");
     printf("OS Creator: Chris Blanks\n");
     printf("OS Architecture: i686\n\n");
+    //cursor_pos = cursorPosition();
+    //printf("Current cursor pos: %d",cursor_pos);
 }
 
 void displayOSName(){
