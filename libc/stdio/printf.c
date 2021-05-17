@@ -79,6 +79,17 @@ int printf(const char* restrict format, ...){
             }
             written += len;
 
+        /*} else if(*format == 'd'){
+            format++;
+            int integer = va_arg(parameters, int);
+            const char* str;
+            size_t len = strlen(str);
+
+            if(!print(str,len)){
+                return -1;
+            }
+            written += len; 
+        */
         } else {
             format = format_begun_at;
             size_t len = strlen(format);
