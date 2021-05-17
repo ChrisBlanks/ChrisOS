@@ -4,7 +4,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
-//public functions for manipulating the terminal 
+//public functiosn for manipulating the cursor 
+void cursorDisable(void);
+void cursorEnable(uint8_t cursor_start, uint8_t cursor_end);
+uint16_t cursorPosition(void);
+void cursorUpdate(int x_pos,int y_pos);
+
+//public functions for manipulating the terminal
 void terminalClear(void);
 void terminalInitialize(void);
 void terminalSetColor(uint8_t color);
