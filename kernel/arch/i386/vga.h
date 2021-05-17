@@ -3,6 +3,17 @@
 
 #include <stdint.h>
 
+//define macros
+#define VGA_CONTROL_REGISTER 0x3D4
+#define VGA_DATA_REGISTER    0x3D5
+
+#define VGA_CURSOR_START_REGISTER 0x0A 
+#define VGA_CURSOR_END_REGISTER   0x0B
+#define VGA_CURSOR_LOCATION_LOW   0x0F
+#define VGA_CURSOR_LOCATION_HIGH  0x0E
+
+#define VGA_TEXT_MODE_BUFFER_ADDRESS 0xB8000
+
 /*
  * VGA Controller Word format (16 bits)
  * |15  ...  12 | 11 ...   8 |7  ...   0|
