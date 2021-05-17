@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 //public functions for manipulating the terminal 
+void terminalClear(void);
 void terminalInitialize(void);
 void terminalSetColor(uint8_t color);
 void terminalPutChar(char c);
