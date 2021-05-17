@@ -3,6 +3,14 @@
 
 #include <stdint.h>
 
+/*
+ * VGA Controller Word format (16 bits)
+ * |15  ...  12 | 11 ...   8 |7  ...   0|
+ * |background  | foreground | character| 
+ * |color       | color      | code     |
+ */
+
+
 /// Hardware text mode color constants
 enum vga_color {
     VGA_COLOR_BLACK         = 0,
