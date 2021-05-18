@@ -8,6 +8,7 @@
 void cursorDisable(void);
 void cursorEnable(uint8_t cursor_start, uint8_t cursor_end);
 uint16_t cursorPosition(void);
+void cursorSetOriention(int pos);
 void cursorUpdate(int x_pos,int y_pos);
 
 //public functions for manipulating the terminal

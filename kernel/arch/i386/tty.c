@@ -71,6 +71,27 @@ uint16_t cursorPosition(void){
     return pos;
 }
 
+//To-Do: Figure out how to get a vertical cursor for left & right
+void cursorSetOriention(int pos){
+    switch(pos){
+        case CURSOR_LOCATION_BOTTOM:
+            cursorEnable(15,31); 
+            break;
+        case CURSOR_LOCATION_TOP:
+            cursorEnable(0,1); 
+            break;
+        case CURSOR_LOCATION_LEFT:
+            //cursorEnable(10,15);  
+            break;
+        case CURSOR_LOCATION_RIGHT:
+            //cursorEnable(15,31); 
+            break;  
+        case CURSOR_LOCATION_FILLED:
+            cursorEnable(0,15); 
+            break;          
+    }
+}
+
 void cursorUpdate(int x_pos, int y_pos){
     uint16_t new_pos = y_pos * VGA_WIDTH + x_pos;
 
@@ -110,7 +131,8 @@ void terminalInitialize(void){
     terminal_color = vgaEntryColor(VGA_COLOR_LIGHT_CYAN,VGA_COLOR_BLACK);
     terminal_buffer = VGA_MEMORY_ADDR;
 
-    cursorEnable(0,1);
+    cursorSetOriention(CURSOR_LOCATION_BOTTOM);
+    
 
     for(size_t y = 0; y < VGA_HEIGHT; y++){
         for(size_t x = 0; x < VGA_WIDTH; x++){

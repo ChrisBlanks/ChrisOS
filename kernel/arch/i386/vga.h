@@ -42,6 +42,14 @@ enum vga_color {
     VGA_COLOR_WHITE         = 15,
 };
 
+enum cursor_pos {
+    CURSOR_LOCATION_BOTTOM = 0,
+    CURSOR_LOCATION_TOP    = 1,
+    CURSOR_LOCATION_LEFT   = 2,
+    CURSOR_LOCATION_RIGHT  = 3,
+    CURSOR_LOCATION_FILLED = 4
+};
+
 ///utility functions
 static inline uint8_t vgaEntryColor(enum vga_color fg, enum vga_color bg){ 
     return fg | bg << 4; 
