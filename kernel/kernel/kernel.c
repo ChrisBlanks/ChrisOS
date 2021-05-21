@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <kernel/tty.h>
+#include <kernel/gdt.h>
 
 
 void displayOSDetails(){
@@ -30,6 +31,8 @@ void displayOSName(){
 
 //Kernel Entry Point
 void kernel_main(void){
+    initGDT();
+    
     terminalInitialize();
 
     displayOSName();
