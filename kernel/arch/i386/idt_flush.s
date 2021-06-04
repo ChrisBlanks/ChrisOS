@@ -5,4 +5,5 @@
 idt_flush:
     
     lidt (idt_ptr)
+    sti
     ret

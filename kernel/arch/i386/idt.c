@@ -4,7 +4,6 @@
 #include "utility.h"
 
 extern void idt_flush();
-//extern void idt_flush(uint32_t);
 
 //static function prototypes
 static void init_idt(void);
@@ -13,7 +12,6 @@ static void remapPIC(void); //remap the Programmable Interrupt Controller
 
 //define macros
 #define DEFAULT_IDT_SIZE 256
-
 
 
 __attribute__((aligned(0x10))) idt_entry_t idt_entries[DEFAULT_IDT_SIZE]; //align for performance
@@ -65,7 +63,6 @@ static void init_idt(void){
     idt_set_gate(30, (uint32_t)isr30, 0x08, 0x8E);
     idt_set_gate(31, (uint32_t)isr31, 0x08, 0x8E);
 
-    //idt_flush((uint32_t)&idt_ptr);
     idt_flush();
 }
 

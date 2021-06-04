@@ -297,9 +297,13 @@ isr31:
 
 isr_common_stub:
     pusha  /* push general purpose registers edi, esi, ebp, esp, ebx, edx, ecx, eax  */
+    push %ds
+    push %es
+    push %fs
+    push %gs
 
-    mov %ds, %ax  /* Move lower 16-bits of eax into ds (data segment) */
-    push %eax /* Save the data segment descriptor */
+    /*mov %ds, %ax  /* Move lower 16-bits of eax into ds (data segment) */
+    /*push %eax /* Save the data segment descriptor */
 
     mov $0x10, %ax
     mov %ax, %ds
@@ -309,12 +313,10 @@ isr_common_stub:
 
     call isrHandler  /* call C code to handle interrupt */
 
-    pop %eax            /* reload the original data segement descriptor */
-    mov %ax, %ds
-    mov %ax, %es
-    mov %ax, %fs
-    mov %ax, %gs
-
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
     popa              /* restore/pop registers edi, esi, ebp, esp, ebx, edx, ecx, eax */
 
     add $0x08, %esp    /* Clean up the pushed error code and ISR number */

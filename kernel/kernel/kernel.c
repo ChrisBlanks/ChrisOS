@@ -30,7 +30,7 @@ void displayOSName(){
 }
 
 void testRaisingInterrupts(){
-    asm volatile ("int $0x3");
+    //asm volatile ("int $0x03");
     asm volatile ("int $0x04");
 }
 
