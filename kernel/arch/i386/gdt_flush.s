@@ -4,7 +4,7 @@
   * %ax 16 bit register
   */
 
-.global gdt_flush /* Make this routine available to C code */
+.globl gdt_flush /* Make this routine available to C code */
 
 gdt_flush:
    mov 4(%esp), %eax  /* Get the pointer to the GDT. Increment %esp index by 4 */

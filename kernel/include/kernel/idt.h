@@ -10,7 +10,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-
 /*
  * Granularity byte format
  *  |    7       | 6    ... 5   | 4 ... 0         | 
@@ -24,7 +23,7 @@ typedef struct __attribute__((packed)) idt_entry_struct {
     uint16_t base_low;
     uint16_t selector;    //  Kernel segment selector
     uint8_t always_0;     // always set to 0
-    uint8_t flags;        // flags
+    uint8_t flags;        // flags: P (present?), Descriptor Privilege level (DPL), Storage Segment, Gate type
     uint16_t base_high;   // high 16-bits of the address to jump to
 } idt_entry_t;
 
@@ -33,6 +32,9 @@ typedef struct __attribute__((packed)) idt_ptr_struct {
     uint16_t limit;
     uint32_t base;  //address of the 1st element in the array of idt_entry_t's
 } idt_ptr_t;
+
+
+void initIDT(void);
 
 //Extern directives access the addresses of ASM ISR handlers
 extern void isr0();

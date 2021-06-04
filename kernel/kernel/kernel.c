@@ -1,8 +1,9 @@
 #include <stdio.h>
 
 #include <kernel/tty.h>
-#include <kernel/gdt.h>
 
+#include <kernel/gdt.h>
+#include <kernel/idt.h>
 
 void displayOSDetails(){
     //To-Do: Implement number formatting in printf
@@ -28,16 +29,36 @@ void displayOSName(){
    printf(ascii_art);    
 }
 
+void testRaisingInterrupts(){
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x04");
+}
+
+void secondTest(int test){
+    terminalPutNumber(test);
+}
+
 
 //Kernel Entry Point
 void kernel_main(void){
     initGDT();
+    initIDT();
     
     terminalInitialize();
 
     displayOSName();
     displayOSDetails();
-    
+
+    //printf("Interrupt test");
+    //testRaisingInterrupts();
+    //printf("Raised interrupts");
+    printf("Interrupt test");
+    int test = 5;
+    test = test /0;
+    secondTest(test);
+    //testRaisingInterrupts();
+    printf("Raised interrupts");
+
     return;
 }
 
