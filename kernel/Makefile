@@ -19,6 +19,7 @@ LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
 ARCHDIR=arch/$(HOSTARCH)
+ISRDIR=$(ARCHDIR)/isr
 
 include $(ARCHDIR)/make.config
 
