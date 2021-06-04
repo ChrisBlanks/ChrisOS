@@ -68,36 +68,6 @@
 .type isr31, @function
 
 
-.globl isrHandler
-
-isr_common_stub:
-    pusha  /* push general purpose registers edi, esi, ebp, esp, ebx, edx, ecx, eax  */
-
-    mov %ds, %ax  /* Move lower 16-bits of eax into ds (data segment) */
-    push %eax /* Save the data segment descriptor */
-
-    mov 0x10, %ax
-    mov %ax, %ds
-    mov %ax, %es
-    mov %ax, %fs
-    mov %ax, %gs
-
-    call isrHandler  /* call C code to handle interrupt */
-
-    pop %eax            /* reload the original data segement descriptor */
-    mov %ax, %ds
-    mov %ax, %es
-    mov %ax, %fs
-    mov %ax, %gs
-
-    popa              /* restore/pop registers edi, esi, ebp, esp, ebx, edx, ecx, eax */
-
-    add $0x08, %esp    /* Clean up the pushed error code and ISR number */
-    sti
-    iret              /* pops CS, EIP, EFLAGS, SS, and ESP */
-      
-		
-
 isr0:
     cli                  /* clear/disable interrupts */
     push $0x0         /* push a dummy error code */
@@ -321,3 +291,34 @@ isr31:
     push   $0x20           /* push interrupt number */
 
     jmp isr_common_stub  /* jumpt to common handler*/
+
+
+.extern isrHandler
+
+isr_common_stub:
+    pusha  /* push general purpose registers edi, esi, ebp, esp, ebx, edx, ecx, eax  */
+
+    mov %ds, %ax  /* Move lower 16-bits of eax into ds (data segment) */
+    push %eax /* Save the data segment descriptor */
+
+    mov $0x10, %ax
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+
+    call isrHandler  /* call C code to handle interrupt */
+
+    pop %eax            /* reload the original data segement descriptor */
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+
+    popa              /* restore/pop registers edi, esi, ebp, esp, ebx, edx, ecx, eax */
+
+    add $0x08, %esp    /* Clean up the pushed error code and ISR number */
+    sti
+    iret              /* pops CS, EIP, EFLAGS, SS, and ESP */
+      
+	

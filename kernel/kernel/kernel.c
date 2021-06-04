@@ -49,16 +49,18 @@ void kernel_main(void){
     displayOSName();
     displayOSDetails();
 
-    //printf("Interrupt test");
-    //testRaisingInterrupts();
-    //printf("Raised interrupts");
+    printf("Interrupt test\n");
+    testRaisingInterrupts();
+    printf("Raised interrupts\n");
+
+    /*
     printf("Interrupt test");
     int test = 5;
     test = test /0;
     secondTest(test);
     //testRaisingInterrupts();
     printf("Raised interrupts");
-
+    */
     return;
 }
 

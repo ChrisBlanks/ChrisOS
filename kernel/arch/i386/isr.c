@@ -43,12 +43,15 @@ char *exception_messages[] =
 
 
 //Interrupt Service Routines (ISR) callback
-void isrHandler(registers_t* regs){
+void isrHandler(registers_t regs){
 
     terminalWriteString("Received interrupt: ");
-    terminalPutNumber(regs->int_no);//write interrupt number
-    terminalWriteString(exception_messages[regs->int_no]);
+    terminalPutNumber(regs.int_no);//write interrupt number
+    terminalWriteString("\n");
+    
+    terminalWriteString("Error Message: ");
+    terminalWriteString(exception_messages[regs.int_no]);
     terminalWriteString("\n");
 
-    //for(;;);
+    for(;;); //halt system
 }

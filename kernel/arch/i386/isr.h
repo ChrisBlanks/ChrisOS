@@ -6,6 +6,9 @@
 #include <stdint.h>
 
 typedef struct __attribute__((packed)) registers{
+    uint32_t gs;
+    uint32_t fs;
+    uint32_t es;
     uint32_t ds;  //data segement selector
     
     //pushed by pusha assembly command
@@ -30,6 +33,6 @@ typedef struct __attribute__((packed)) registers{
     uint32_t ss;
 } registers_t ;
 
-void isrHandler(registers_t* regs);
+void isrHandler(registers_t regs);
 
 #endif

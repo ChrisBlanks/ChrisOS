@@ -3,7 +3,8 @@
 
 #include "utility.h"
 
-extern void idt_flush(uint32_t);
+extern void idt_flush();
+//extern void idt_flush(uint32_t);
 
 //static function prototypes
 static void init_idt(void);
@@ -64,7 +65,8 @@ static void init_idt(void){
     idt_set_gate(30, (uint32_t)isr30, 0x08, 0x8E);
     idt_set_gate(31, (uint32_t)isr31, 0x08, 0x8E);
 
-    idt_flush((uint32_t)&idt_ptr);
+    //idt_flush((uint32_t)&idt_ptr);
+    idt_flush();
 }
 
 static void idt_set_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flags){
