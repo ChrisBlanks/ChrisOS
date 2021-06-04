@@ -6,9 +6,10 @@
 
 .globl gdt_flush /* Make this routine available to C code */
 
+.extern gdt_ptr
+
 gdt_flush:
-   mov 4(%esp), %eax  /* Get the pointer to the GDT. Increment %esp index by 4 */
-   lgdt (%eax)        /* Load the new GDT pointer */
+   lgdt (gdt_ptr)        /* Load the new GDT pointer */
    
    mov $0x10, %ax     /* 0x10 is the offset in the GDT to the data segment */
                       /* Load all data segement selectors */

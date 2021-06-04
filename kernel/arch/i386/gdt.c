@@ -2,7 +2,7 @@
 
 #define DEFAULT_ENTRY_ARRAY_SIZE 5
 
-extern void gdt_flush(uint32_t); //defined in assembly file
+extern void gdt_flush(); //defined in assembly file
 
 //global variables
 gdt_entry_t gdt_entries[DEFAULT_ENTRY_ARRAY_SIZE];
@@ -30,7 +30,7 @@ static void createInitialGDTEntries(void){
     setGDTEntry(3,0,0xFFFFFFFF,0xFA,0xCF); //create user mode code segment
     setGDTEntry(4,0,0xFFFFFFFF,0xF2,0xCF); //create user mode data segment
 
-    gdt_flush((uint32_t)&gdt_ptr);
+    gdt_flush();
 
 }
 
