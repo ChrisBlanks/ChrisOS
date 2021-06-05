@@ -1,8 +1,13 @@
 #include <limits.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+
+#if defined(__is_libk)
+#include <kernel/tty.h>
+#endif
 
 static bool print(const char* data, size_t length){
     const unsigned char* bytes = (const unsigned char*) data;
@@ -12,6 +17,25 @@ static bool print(const char* data, size_t length){
         }
     }
     return true;
+}
+
+static bool printSignedInteger(int number){
+
+#if defined(__is_libk)
+
+    if(number < 0){ //if negative, write a "-"
+        putchar('-');
+        terminalPutNumber( (uint32_t) (-1* number));
+    } else {
+        terminalPutNumber(number);
+    }
+
+#else
+    //To-do: Implement stdio and the write system call for libc
+#endif
+
+    return true;
+
 }
 
 int printf(const char* restrict format, ...){
@@ -79,17 +103,25 @@ int printf(const char* restrict format, ...){
             }
             written += len;
 
-        /*} else if(*format == 'd'){
+        } else if(*format == 'd'){
             format++;
             int integer = va_arg(parameters, int);
-            const char* str;
-            size_t len = strlen(str);
+            int temp = (integer >= 0) ? integer : -1 * integer; //make positive for later computation
 
-            if(!print(str,len)){
+            if(!printSignedInteger(integer)){
                 return -1;
             }
-            written += len; 
-        */
+
+            if(integer < 0 || integer == 0){
+                written++; //negative sign was written or only a 0 was written
+            }
+            
+            while(temp > 0){ //count number of digits
+                written++;
+                temp /=10;
+            }
+
+        
         } else {
             format = format_begun_at;
             size_t len = strlen(format);
