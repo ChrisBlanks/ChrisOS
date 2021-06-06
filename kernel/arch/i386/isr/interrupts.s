@@ -32,6 +32,24 @@
 .globl isr31
 
 
+.globl irq0
+.globl irq1
+.globl irq2
+.globl irq3
+.globl irq4
+.globl irq5
+.globl irq6
+.globl irq7
+.globl irq8
+.globl irq9
+.globl irq10
+.globl irq11
+.globl irq12
+.globl irq13
+.globl irq14
+.globl irq15
+
+
 .type isr0, @function
 .type isr1, @function
 .type isr2, @function
@@ -66,6 +84,24 @@
 .type isr29, @function
 .type isr30, @function
 .type isr31, @function
+
+.type irq0, @function
+.type irq1, @function
+.type irq2, @function
+.type irq3, @function
+.type irq4, @function
+.type irq5, @function
+.type irq6, @function
+.type irq7, @function
+.type irq8, @function
+.type irq9, @function
+
+.type irq10, @function
+.type irq11, @function
+.type irq12, @function
+.type irq13, @function
+.type irq14, @function
+.type irq15, @function
 
 
 isr0:
@@ -323,4 +359,156 @@ isr_common_stub:
     sti
     iret              /* pops CS, EIP, EFLAGS, SS, and ESP */
       
-	
+
+
+irq0:
+    cli                  /* clear/disable interrupts */
+    push $0x0         /* push a dummy error code */
+    push $0x32         /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq1:
+    cli                  /* clear/disable interrupts */
+    push $0x0         /* push a dummy error code */
+    push $0x33          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq2:
+    cli                  /* clear/disable interrupts */
+    push $0x0         /* push a dummy error code */
+    push $0x34          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq3:
+    cli              /* clear/disable interrupts */
+    push $0x0          /* push a dummy error code */
+    push $0x35           /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq4:
+    cli                  /* clear/disable interrupts */
+    push $0x0         /* push a dummy error code */
+    push $0x36          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq5:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x37          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq6:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x38          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq7:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x39          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+/* Pushes its own error code */
+irq8:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x40          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq9:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x41          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+/* Pushes its own error code */
+irq10:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x42        /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+/* Pushes its own error code */
+irq11:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x43          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+/* Pushes its own error code */
+irq12:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x44         /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+/* Pushes its own error code */
+irq13:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x45          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+/* Pushes its own error code */
+irq14:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x46          /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+irq15:
+    cli                  /* clear/disable interrupts */
+    push   $0x0         /* push a dummy error code */
+    push   $0x47         /* push interrupt number */
+
+    jmp irq_common_stub  /* jumpt to common handler*/
+
+
+
+.extern irqHandler
+
+
+irq_common_stub:
+    pusha  /* push general purpose registers edi, esi, ebp, esp, ebx, edx, ecx, eax  */
+    push %ds
+    push %es
+    push %fs
+    push %gs
+
+    /*mov %ds, %ax  /* Move lower 16-bits of eax into ds (data segment) */
+    /*push %eax /* Save the data segment descriptor */
+
+    mov $0x10, %ax
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+
+    call irqHandler  /* call C code to handle interrupt */
+
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
+    popa              /* restore/pop registers edi, esi, ebp, esp, ebx, edx, ecx, eax */
+
+    add $0x08, %esp    /* Clean up the pushed error code and ISR number */
+    sti
+    iret              /* pops CS, EIP, EFLAGS, SS, and ESP */
+      

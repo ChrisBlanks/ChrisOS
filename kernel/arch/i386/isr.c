@@ -1,5 +1,10 @@
 #include "isr.h"
 #include <kernel/tty.h>
+#include "utility.h"
+
+#define DEFAULT_INTERRUPT_HANDLERS_SIZE 256
+
+isr_t interrupt_handlers[DEFAULT_INTERRUPT_HANDLERS_SIZE];
 
 /* Exception descriptions */
 char *exception_messages[] =
@@ -54,4 +59,27 @@ void isrHandler(registers_t regs){
     terminalWriteString("\n");
 
     for(;;); //halt system
+}
+
+// Interrupt Request callback
+void irqHandler(registers_t regs){
+
+    if(regs.int_no >= 40){ //send an end-of-interrupt signal to PICS if slave PIC
+        outb(0xA0,0x20); //send reset signal to slave PIC
+    }
+
+    outb(0x20,0x20); //send reset signal to master PIC
+
+    //execute custom handler
+    if (interrupt_handlers[regs.int_no] != 0)
+    {
+        isr_t handler = interrupt_handlers[regs.int_no];
+        handler(regs);
+    }
+
+}
+
+// set a custom handler for IRQ sepcified by 'num'
+void registerInterruptHandler(uint8_t num, isr_t handler){
+    interrupt_handlers[num] = handler;
 }

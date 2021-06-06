@@ -75,16 +75,47 @@ static void idt_set_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_
     idt_entries[index].flags = flags; // To-Do: add this when user-mode is used later on `| 0x60`
 }
 
-
+/*
+ * Remap Programmable Interrupt Controller to avoid conflict w/ exceptions.
+ * 
+ * Master PIC: command port = 0x20, data port = 0x21
+ * Slave PIC: command port = 0xA0, data port = 0xA1
+ */
 static void remapPIC(void){
+    //write to the command registers
     outb(0x20, 0x11);
     outb(0xA0, 0x11);
+
+    //write to the data registers
     outb(0x21, 0x20);
     outb(0xA1, 40);
+
     outb(0x21, 0x04);
     outb(0xA1, 0x02);
+    
     outb(0x21, 0x01);
     outb(0xA1, 0x01);
+    
     outb(0x21, 0x0);
     outb(0xA1, 0x0);
+
+    //assign interrupt requests to idt
+    idt_set_gate(32, (uint32_t)irq0, 0x08, 0x8E);
+    idt_set_gate(33, (uint32_t)irq1, 0x08, 0x8E);
+    idt_set_gate(34, (uint32_t)irq2, 0x08, 0x8E);
+    idt_set_gate(35, (uint32_t)irq3, 0x08, 0x8E);
+    idt_set_gate(36, (uint32_t)irq4, 0x08, 0x8E);
+    idt_set_gate(37, (uint32_t)irq5, 0x08, 0x8E);
+
+    idt_set_gate(38, (uint32_t)irq6, 0x08, 0x8E);
+    idt_set_gate(39, (uint32_t)irq7, 0x08, 0x8E);
+    idt_set_gate(40, (uint32_t)irq8, 0x08, 0x8E);
+    idt_set_gate(41, (uint32_t)irq9, 0x08, 0x8E);
+    idt_set_gate(42, (uint32_t)irq10, 0x08, 0x8E);
+    idt_set_gate(43, (uint32_t)irq11, 0x08, 0x8E);
+    idt_set_gate(44, (uint32_t)irq12, 0x08, 0x8E);
+    idt_set_gate(45, (uint32_t)irq13, 0x08, 0x8E);
+    idt_set_gate(46, (uint32_t)irq14, 0x08, 0x8E);
+    idt_set_gate(47, (uint32_t)irq15, 0x08, 0x8E);
+
 }
