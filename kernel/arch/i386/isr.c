@@ -4,6 +4,14 @@
 
 #define DEFAULT_INTERRUPT_HANDLERS_SIZE 256
 
+#define MASTER_PIC 0x20
+#define SLAVE_PIC  0xA0
+
+#define MASTER_COMMAND	MASTER_PIC
+#define MASTER_DATA	(MASTER_PIC + 1)
+#define SLAVE_COMMAND	SLAVE_PIC
+#define SLAVE_DATA	(SLAVE_PIC+1)
+
 isr_t interrupt_handlers[DEFAULT_INTERRUPT_HANDLERS_SIZE];
 
 /* Exception descriptions */
@@ -65,10 +73,10 @@ void isrHandler(registers_t regs){
 void irqHandler(registers_t regs){
 
     if(regs.int_no >= 40){ //send an end-of-interrupt signal to PICS if slave PIC
-        outb(0xA0,0x20); //send reset signal to slave PIC
+        outb(SLAVE_PIC,0x20); //send reset signal to slave PIC
     }
 
-    outb(0x20,0x20); //send reset signal to master PIC
+    outb(MASTER_PIC,0x20); //send reset signal to master PIC
 
     //execute custom handler
     if (interrupt_handlers[regs.int_no] != 0)
