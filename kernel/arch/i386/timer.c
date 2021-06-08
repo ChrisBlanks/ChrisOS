@@ -11,11 +11,14 @@ uint32_t seconds = 0;
 static void timerCallback(registers_t regs){
     tick++; 
 
+    
     if(tick % currentFrequency == 0){
         seconds++;
+        /*
         terminalWriteString("Seconds passed: ");
         terminalPutNumber(seconds);
         terminalWriteString("\n"); 
+        */
     }
 
 }
