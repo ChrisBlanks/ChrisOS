@@ -6,6 +6,7 @@
 #include <kernel/idt.h>
 
 #include <kernel/timer.h>
+#include <kernel/keyboard.h>
 
 
 void displayOSDetails(){
@@ -44,8 +45,8 @@ void kernel_main(void){
     initIDT();
     
     terminalInitialize();
-
     initTimer(DEFAULT_TIMER_FREQ);
+    initKeyboard();
 
     displayOSName();
     displayOSDetails();
