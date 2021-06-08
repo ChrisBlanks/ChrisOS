@@ -12,7 +12,8 @@
 #define SLAVE_COMMAND	SLAVE_PIC
 #define SLAVE_DATA	(SLAVE_PIC+1)
 
-isr_t interrupt_handlers[DEFAULT_INTERRUPT_HANDLERS_SIZE];
+
+isr_t interrupt_handlers[DEFAULT_INTERRUPT_HANDLERS_SIZE] = {0};
 
 /* Exception descriptions */
 char *exception_messages[] =
@@ -72,18 +73,18 @@ void isrHandler(registers_t regs){
 // Interrupt Request callback
 void irqHandler(registers_t regs){
 
-    if(regs.int_no >= 40){ //send an end-of-interrupt signal to PICS if slave PIC
-        outb(SLAVE_PIC,0x20); //send reset signal to slave PIC
-    }
-
-    outb(MASTER_PIC,0x20); //send reset signal to master PIC
-
     //execute custom handler
     if (interrupt_handlers[regs.int_no] != 0)
     {
         isr_t handler = interrupt_handlers[regs.int_no];
         handler(regs);
     }
+
+    if(regs.int_no >= 40){ //send an end-of-interrupt signal to PICS if slave PIC
+        outb(SLAVE_PIC,0x20); //send reset signal to slave PIC
+    }
+
+    outb(MASTER_PIC,0x20); //send reset signal to master PIC
 
 }
 

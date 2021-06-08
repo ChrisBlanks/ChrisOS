@@ -3,12 +3,6 @@
 
 #include "utility.h"
 
-extern void idt_flush();
-
-//static function prototypes
-static void init_idt(void);
-static void idt_set_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flags);
-static void remapPIC(void); //remap the Programmable Interrupt Controller
 
 //define macros
 #define DEFAULT_IDT_SIZE 256
@@ -34,21 +28,31 @@ static void remapPIC(void); //remap the Programmable Interrupt Controller
 #define ICW4_SFNM	0x10		/* Special fully nested (not) */
 
 
+extern void idt_flush();
+
+//static function prototypes
+static void init_idt(void);
+static void idt_set_gate(uint8_t index, uint32_t base, uint16_t selector, uint8_t flags);
+static void remapPIC(void); //remap the Programmable Interrupt Controller
+
 __attribute__((aligned(0x10))) idt_entry_t idt_entries[DEFAULT_IDT_SIZE]; //align for performance
 idt_ptr_t idt_ptr;
 
 
 void initIDT(void){
-    init_idt();
-    remapPIC();
-}
 
-
-static void init_idt(void){
     idt_ptr.limit = (sizeof(idt_entry_t) * DEFAULT_IDT_SIZE) -1 ;
     idt_ptr.base = (uint32_t)&idt_entries;
 
     memset(&idt_entries,0,sizeof(sizeof(idt_entry_t) * DEFAULT_IDT_SIZE));
+
+    init_idt();
+    remapPIC();
+
+}
+
+
+static void init_idt(void){
 
     idt_set_gate(0, (uint32_t)isr0, 0x08, 0x8E);
     idt_set_gate(1, (uint32_t)isr1, 0x08, 0x8E);

@@ -5,6 +5,9 @@
 #include <kernel/gdt.h>
 #include <kernel/idt.h>
 
+#include <kernel/timer.h>
+
+
 void displayOSDetails(){
     printf("\n---  Operating System Details ---\n");
     printf("OS Name: ChrisOS\n");
@@ -42,8 +45,15 @@ void kernel_main(void){
     
     terminalInitialize();
 
+    initTimer(DEFAULT_TIMER_FREQ);
+
     displayOSName();
     displayOSDetails();
+
+    //loop forever 
+    for(;;){
+        asm("hlt");
+    }
     
     return;
 }

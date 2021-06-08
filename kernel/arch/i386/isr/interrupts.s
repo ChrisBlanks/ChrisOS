@@ -324,7 +324,7 @@ isr30:
 isr31:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x20           /* push interrupt number */
+    push   $0x1F           /* push interrupt number */
 
     jmp isr_common_stub  /* jumpt to common handler*/
 
@@ -364,56 +364,56 @@ isr_common_stub:
 irq0:
     cli                  /* clear/disable interrupts */
     push $0x0         /* push a dummy error code */
-    push $0x32         /* push interrupt number */
+    push $0x20         /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq1:
     cli                  /* clear/disable interrupts */
     push $0x0         /* push a dummy error code */
-    push $0x33          /* push interrupt number */
+    push $0x21          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq2:
     cli                  /* clear/disable interrupts */
     push $0x0         /* push a dummy error code */
-    push $0x34          /* push interrupt number */
+    push $0x22          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq3:
     cli              /* clear/disable interrupts */
     push $0x0          /* push a dummy error code */
-    push $0x35           /* push interrupt number */
+    push $0x23           /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq4:
     cli                  /* clear/disable interrupts */
     push $0x0         /* push a dummy error code */
-    push $0x36          /* push interrupt number */
+    push $0x24          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq5:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x37          /* push interrupt number */
+    push   $0x25          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq6:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x38          /* push interrupt number */
+    push   $0x26          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq7:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x39          /* push interrupt number */
+    push   $0x27          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
@@ -421,14 +421,14 @@ irq7:
 irq8:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x40          /* push interrupt number */
+    push   $0x28          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq9:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x41          /* push interrupt number */
+    push   $0x29          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
@@ -436,7 +436,7 @@ irq9:
 irq10:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x42        /* push interrupt number */
+    push   $0x2A       /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
@@ -444,7 +444,7 @@ irq10:
 irq11:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x43          /* push interrupt number */
+    push   $0x2B          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
@@ -452,7 +452,7 @@ irq11:
 irq12:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x44         /* push interrupt number */
+    push   $0x2C         /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
@@ -460,7 +460,7 @@ irq12:
 irq13:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x45          /* push interrupt number */
+    push   $0x2D          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
@@ -468,14 +468,14 @@ irq13:
 irq14:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x46          /* push interrupt number */
+    push   $0x2E          /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
 irq15:
     cli                  /* clear/disable interrupts */
     push   $0x0         /* push a dummy error code */
-    push   $0x47         /* push interrupt number */
+    push   $0x2F         /* push interrupt number */
 
     jmp irq_common_stub  /* jumpt to common handler*/
 
