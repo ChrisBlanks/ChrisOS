@@ -62,6 +62,10 @@ void isrHandler(registers_t regs){
     terminalWriteString("Received interrupt: ");
     terminalPutNumber(regs.int_no);//write interrupt number
     terminalWriteString("\n");
+
+    terminalWriteString("Error code: ");
+    terminalPutNumber(regs.err_code);//write error code
+    terminalWriteString("\n");
     
     terminalWriteString("Error Message: ");
     terminalWriteString(exception_messages[regs.int_no]);
