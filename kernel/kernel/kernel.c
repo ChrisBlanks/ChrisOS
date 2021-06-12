@@ -60,7 +60,7 @@ void kernel_main(void){
     uint32_t* ptr = (uint32_t*) 0x00000000;
     uint32_t do_page_fault = *ptr;
 
-    //testRaisingInterrupts();
+    testRaisingInterrupts();
 
     //loop forever 
     for(;;){

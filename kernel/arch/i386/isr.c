@@ -71,6 +71,12 @@ void isrHandler(registers_t regs){
     terminalWriteString(exception_messages[regs.int_no]);
     terminalWriteString("\n");
 
+    if (interrupt_handlers[regs.int_no] != 0)
+    {
+        isr_t handler = interrupt_handlers[regs.int_no];
+        handler(regs);
+    }
+
     for(;;); //halt system
 }
 
