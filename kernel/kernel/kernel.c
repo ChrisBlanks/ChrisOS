@@ -7,6 +7,7 @@
 
 #include <kernel/timer.h>
 #include <kernel/keyboard.h>
+#include <kernel/paging.h>
 
 
 void displayOSDetails(){
@@ -31,7 +32,8 @@ void displayOSName(){
 
 void testRaisingInterrupts(){
     //asm volatile ("int $0x03");
-    asm volatile ("int $0x04");
+    //asm volatile ("int $0x04");
+    asm volatile ("int $0x0E");
 }
 
 void secondTest(int test){
@@ -48,8 +50,17 @@ void kernel_main(void){
     initTimer(DEFAULT_TIMER_FREQ);
     initKeyboard();
 
+    initializePaging();
+
     displayOSName();
     displayOSDetails();
+
+    
+
+    uint32_t* ptr = (uint32_t*) 0x00000000;
+    uint32_t do_page_fault = *ptr;
+
+    //testRaisingInterrupts();
 
     //loop forever 
     for(;;){

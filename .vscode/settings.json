@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "tty.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "frame.h": "c"
     }
 }

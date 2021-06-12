@@ -1,8 +1,8 @@
 #include <kernel/keyboard.h>
 #include <kernel/tty.h>
+#include <kernel/isr.h>
 
 #include "utility.h"
-#include "isr.h"
 
 /* KBDUS means US Keyboard Layout. This is a scancode table
 *  used to layout a standard US keyboard. I have left some
@@ -67,5 +67,5 @@ void keyboardHandler(registers_t regs){
 
 void initKeyboard(void){
 
-    registerInterruptHandler(IRQ1, keyboardHandler);
+    registerInterruptHandler(IRQ1, &keyboardHandler);
 }

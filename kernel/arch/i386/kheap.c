@@ -1,11 +1,13 @@
+#define KHEAP_MAIN
 #include <kernel/kheap.h>
 
 //static functions
 static uint32_t kmalloc_internal(uint32_t size, uint32_t align, uint32_t* physical_address);
 
 //global variables
-uint32_t placement_addr;
-
+//uint32_t placement_addr;
+extern uint32_t end;
+uint32_t placement_addr = (uint32_t)&end;
 
 //wrapper functions for public use
 

@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "isr.h"
+#include <kernel/isr.h>
 
 #define DEFAULT_NUMBER_OF_PAGES  1024
 #define DEFAULT_NUMBER_OF_TABLES 1024
@@ -12,6 +12,8 @@
 #define CREATE_PAGE_IF_NONEXISTENT 1
 #define DO_NOT_CREATE_PAGE_IF_NONEXISTENT 0
 
+//16 MB
+#define DEFAULT_PHYSICAL_MEMORY_SIZE 0x10000000  
 
 typedef struct page_t {
     uint32_t present    : 1;   // Page present in memory
@@ -36,7 +38,7 @@ typedef struct page_directory_t {
 
 void initializePaging(); //setups of environment for paging
 void switchPageDirectory(page_directory_t* new_page_dir); //loads page directory into CR3 register
-page_t* getPage(uint32_t address, int createIfNonexistent,page_directory_t* page_dir); //retrieves a pointer to a page 
+page_t* getPage(uint32_t address, uint32_t createIfNonexistent, page_directory_t* page_dir); //retrieves a pointer to a page 
 void pageFault(registers_t regs);
 
 #endif

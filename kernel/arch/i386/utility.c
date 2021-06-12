@@ -1,4 +1,21 @@
 #include "utility.h"
+#include <kernel/tty.h>
+
+
+void panic(const char* msg, const char* src_file,uint32_t line_num){
+    asm volatile("cli"); //disable interrupts
+
+    terminalWriteString("PANIC( ");
+    terminalWriteString(msg);
+    terminalWriteString(") @ ");
+    terminalWriteString(src_file);
+    terminalWriteString(":");
+    terminalPutNumber(line_num);
+    terminalWriteString("\n");
+
+    for(;;); //halt by entering an infinite loop
+}
+
 
 /*
  * Write a 'value' to specified 'port' via assembly call

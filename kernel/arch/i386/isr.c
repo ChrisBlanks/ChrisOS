@@ -1,4 +1,4 @@
-#include "isr.h"
+#include <kernel/isr.h>
 #include <kernel/tty.h>
 #include "utility.h"
 

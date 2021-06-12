@@ -1,8 +1,8 @@
-#include "isr.h"
-#include "utility.h"
+#include <kernel/isr.h>
 #include <kernel/tty.h>
-
 #include <kernel/timer.h>
+
+#include "utility.h"
 
 uint32_t tick = 0;
 uint32_t currentFrequency = 0;
