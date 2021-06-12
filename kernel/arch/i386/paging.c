@@ -32,7 +32,7 @@ void initializePaging(){
    // inside the loop body we actually change placement_address
    // by calling kmalloc(). A while loop causes this to be
    // computed on-the-fly rather than once at the start.
-   uint32_t i = 0;
+   int i = 0;
    while (i < placement_addr)
    {
        // Kernel code is readable but not writeable from userspace.
@@ -40,8 +40,8 @@ void initializePaging(){
        i += 0x1000;
    }
 
-    switchPageDirectory(kernel_directory);   
     registerInterruptHandler(0x0E, &pageFault);
+    switchPageDirectory(kernel_directory);   
 }
 
 
@@ -113,6 +113,4 @@ void pageFault(registers_t regs){
     terminalWriteString(") @ memory address ");
     terminalPutNumber(faulting_addr); //To-Do: replace with hex function
     terminalWriteString("(decimal)\n");
-
-    panic("Page fault", __FILE__, __LINE__);
 }
