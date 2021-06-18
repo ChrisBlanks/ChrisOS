@@ -1,5 +1,7 @@
 # ChrisOS
 ## Author: ChrisB
+
+Hobby operating system. Inspired from the tutorials at OSDev.org and jamesmolloy.co.uk.
 ---
 ### Build Environment
 Kubuntu 20.04
