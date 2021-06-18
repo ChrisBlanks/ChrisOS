@@ -13,7 +13,7 @@
 #define DO_NOT_CREATE_PAGE_IF_NONEXISTENT 0
 
 //16 MB
-#define DEFAULT_PHYSICAL_MEMORY_SIZE 0x10000000  
+#define DEFAULT_PHYSICAL_MEMORY_SIZE 0x1000000  
 
 typedef struct page_t {
     uint32_t present    : 1;   // Page present in memory
@@ -35,6 +35,10 @@ typedef struct page_directory_t {
     uint32_t physical_addr; //physical address of 'tables_physical_addr' struct member
 } page_directory_t;
 
+
+//global variables
+extern page_directory_t* kernel_directory; 
+extern page_directory_t* current_directory;
 
 void initializePaging(); //setups of environment for paging
 void switchPageDirectory(page_directory_t* new_page_dir); //loads page directory into CR3 register

@@ -2,6 +2,8 @@
     "files.associations": {
         "tty.h": "c",
         "string.h": "c",
-        "frame.h": "c"
+        "frame.h": "c",
+        "kheap.h": "c",
+        "paging.h": "c"
     }
 }

@@ -8,7 +8,7 @@
 #include <kernel/timer.h>
 #include <kernel/keyboard.h>
 #include <kernel/paging.h>
-
+#include <kernel/kheap.h>
 
 void displayOSDetails(){
     printf("\n---  Operating System Details ---\n");
@@ -50,10 +50,41 @@ void kernel_main(void){
     initTimer(DEFAULT_TIMER_FREQ);
     initKeyboard();
 
-    initializePaging();
+
 
     displayOSName();
     displayOSDetails();
+
+    uint32_t a = kmalloc(8);
+
+    terminalWriteString("a address: ");
+    terminalPutNumber(a);
+
+    initializePaging();
+
+    uint32_t b = kmalloc(8);
+    uint32_t c = kmalloc(8);
+
+    terminalWriteString("\nb address: ");
+    terminalPutNumber(b);
+    terminalWriteString("\nc address: ");
+    terminalPutNumber(c);
+    terminalWriteString("\nFreeing memory now\n");
+
+    kfree(b);
+    kfree(c);
+
+    terminalWriteString("\nDone freeing memory now\n");
+
+    uint32_t d = kmalloc(1000);
+    uint32_t e = kmalloc(8);
+    terminalWriteString("\nd address: ");
+    terminalPutNumber(d);
+    terminalWriteString("\ne address: ");
+    terminalPutNumber(e);
+
+    kfree(d);
+    kfree(e);
 
     //loop forever 
     for(;;){

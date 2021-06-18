@@ -10,9 +10,12 @@
 //libk includes
 #include <string.h>
 
+
 page_directory_t* kernel_directory=0;
 page_directory_t* current_directory=0;
 
+extern uint32_t placement_addr;
+extern heap_t* kheap;
 
 void initializePaging(){
     uint32_t mem_end_page = DEFAULT_PHYSICAL_MEMORY_SIZE; //size of physical memory
@@ -25,6 +28,11 @@ void initializePaging(){
     memset(kernel_directory, 0,sizeof(page_directory_t));
     current_directory = kernel_directory;
 
+    //create pages for the heap
+    for(int i=KHEAP_START; i < (int)(KHEAP_START + KHEAP_INITIAL_SIZE); i += 0x1000){
+        getPage(i,CREATE_PAGE_IF_NONEXISTENT,kernel_directory);
+    }
+
    // We need to identity map (phys addr = virt addr) from
    // 0x0 to the end of used memory, so we can access this
    // transparently, as if paging wasn't enabled.
@@ -32,16 +40,23 @@ void initializePaging(){
    // inside the loop body we actually change placement_address
    // by calling kmalloc(). A while loop causes this to be
    // computed on-the-fly rather than once at the start.
-   int i = 0;
-   while (i < placement_addr)
+   uint32_t i = 0;
+   while (i < placement_addr + 0x1000)
    {
        // Kernel code is readable but not writeable from userspace.
        allocFrame( getPage(i, CREATE_PAGE_IF_NONEXISTENT, kernel_directory), !IS_KERNEL, !IS_WRITEABLE);
        i += 0x1000;
    }
 
+    //allocate frames for heap pages
+    for(int i=KHEAP_START; i < (int)(KHEAP_START + KHEAP_INITIAL_SIZE); i += 0x1000){
+        allocFrame( getPage(i,CREATE_PAGE_IF_NONEXISTENT,kernel_directory),!IS_KERNEL,!IS_WRITEABLE);
+    }
+    
     registerInterruptHandler(0x0E, &pageFault);
     switchPageDirectory(kernel_directory);   
+
+    kheap = createHeap(KHEAP_START, KHEAP_START + KHEAP_INITIAL_SIZE, 0xCFFFF000, !IS_SUPERVISOR_MODE, !IS_READ_ONLY);
 }
 
 
