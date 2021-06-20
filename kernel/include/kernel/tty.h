@@ -17,6 +17,7 @@ void terminalInitialize(void);
 void terminalSetColor(uint8_t color);
 void terminalPutChar(char c);
 void terminalPutNumber(uint32_t num);
+void terminalPutHexNumber(uint32_t num);
 void terminalWrite(const char* data, size_t size);
 void terminalWriteString(const char* data);
 

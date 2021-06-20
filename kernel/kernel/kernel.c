@@ -57,18 +57,18 @@ void kernel_main(void){
 
     uint32_t a = kmalloc(8);
 
-    terminalWriteString("a address: ");
-    terminalPutNumber(a);
+    terminalWriteString("a address: 0X");
+    terminalPutHexNumber(a);
 
     initializePaging();
 
     uint32_t b = kmalloc(8);
     uint32_t c = kmalloc(8);
 
-    terminalWriteString("\nb address: ");
-    terminalPutNumber(b);
-    terminalWriteString("\nc address: ");
-    terminalPutNumber(c);
+    terminalWriteString("\nb address: 0x");
+    terminalPutHexNumber(b);
+    terminalWriteString("\nc address: 0x");
+    terminalPutHexNumber(c);
     terminalWriteString("\nFreeing memory now\n");
 
     kfree(b);
@@ -78,10 +78,10 @@ void kernel_main(void){
 
     uint32_t d = kmalloc(1000);
     uint32_t e = kmalloc(8);
-    terminalWriteString("\nd address: ");
-    terminalPutNumber(d);
-    terminalWriteString("\ne address: ");
-    terminalPutNumber(e);
+    terminalWriteString("\nd address: 0x");
+    terminalPutHexNumber(d);
+    terminalWriteString("\ne address: 0x");
+    terminalPutHexNumber(e);
 
     kfree(d);
     kfree(e);

@@ -175,6 +175,51 @@ void terminalPutEntryAt(char c, uint8_t color, size_t x, size_t y){
 }
 
 
+void terminalPutHexNumber(uint32_t num){
+    char parse_buf[11] = {0}; //max number of decimal digits of a 32-bit number is 10. Add index for null
+    char num_str[11] = {0};
+    uint32_t num_copy = num;
+    uint32_t val, ascii_val;
+    uint8_t firstNonZeroFound = 0;
+    uint8_t result_index = 0;
+
+    if(num == 0){ //handle simple case
+        terminalWriteString("0");
+        return;
+    }
+
+    for(int index=0;index < 10;index++){
+        val = num_copy % 16;    
+        if(val < 10){
+            ascii_val = val + 48; //add offset to 'val' to calculate ascii value of number
+        } else{
+            ascii_val = (val %10) + 65; //add offset to remainder to calculate ascii capital letter 
+        }
+
+        parse_buf[index] = (char)ascii_val;
+
+        num_copy = (uint32_t) (num_copy / 16); //shift digits for next calculation
+    }
+
+    /*Debug number parsing: 
+    terminalWriteString("\nIntermediate result: ");
+    terminalWriteString(parse_buf);
+    terminalWriteString("\n");
+    */
+   
+    for(int index=9;index>=0;index--){
+
+        if( parse_buf[index] == '0'  && firstNonZeroFound == 0){
+            continue; //skip index if equal to '0' & no nonzero characters have been found yet
+        }
+        num_str[result_index] = parse_buf[index];
+        result_index++;
+        firstNonZeroFound = 1;
+    }
+
+    terminalWriteString(num_str);
+}
+
 void terminalPutNumber(uint32_t num){
     char parse_buf[11] = {0}; //max number of decimal digits of a 32-bit number is 10. Add index for null
     char num_str[11] = {0};
