@@ -1,6 +1,9 @@
 #include <kernel/serial.h>
 #include <kernel/isr.h>
 
+#include <kernel/tty.h>
+#include <string.h>
+
 #include "utility.h"
 
 
@@ -65,16 +68,22 @@ void writeSerialData(uint32_t port_address, char data){
     outb( port_address + DATA_REG_OFFSET, data);
 }
 
-uint8_t updateSerialBaudRate(uint32_t port_address, uint32_t baud_rate){
+void writeSerialString(uint32_t  port_address, char* string){
+    for(int index = 0; index < strlen(string); index++){
+        writeSerialData(port_address,string[index]);
+    }
+}
+
+
+void updateSerialBaudRate(uint32_t port_address, uint32_t baud_rate){
 
     uint32_t divisor = (uint32_t) (MAX_SERIAL_BAUD_RATE / baud_rate);
 
     outb( port_address + BAUD_DIVISOR_LSB_OFFSET, divisor & 0xFF); //set low byte of baud rate divisor 
     outb( port_address + BAUD_DIVISOR_MSB_OFFSET, (divisor >> 8) & 0xFF); //set high byte of baud rate divisor
-
 }
 
-uint8_t updateSerialPortMode(uint32_t  port_address, uint32_t mode_flags){
+void updateSerialPortMode(uint32_t  port_address, uint32_t mode_flags){
     outb( port_address + LINE_CONTROL_REG_OFFSET, mode_flags & 0xFF); //set mode flags
 }
 
@@ -89,5 +98,6 @@ static uint8_t isTransmitBufferEmpty(uint32_t  port_address){
 
 
 static void serialCommsHandler(registers_t regs){
-
+    char c = receiveSerialData(COM1);
+    terminalWriteString(&c);
 }

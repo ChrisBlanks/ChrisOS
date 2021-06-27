@@ -9,6 +9,8 @@
 #include <kernel/keyboard.h>
 #include <kernel/paging.h>
 #include <kernel/kheap.h>
+#include <kernel/serial.h>
+
 
 void displayOSDetails(){
     printf("\n---  Operating System Details ---\n");
@@ -49,42 +51,14 @@ void kernel_main(void){
     terminalInitialize();
     initTimer(DEFAULT_TIMER_FREQ);
     initKeyboard();
-
-
+    initSerialComms();
 
     displayOSName();
     displayOSDetails();
 
-    uint32_t a = kmalloc(8);
-
-    terminalWriteString("a address: 0X");
-    terminalPutHexNumber(a);
-
     initializePaging();
 
-    uint32_t b = kmalloc(8);
-    uint32_t c = kmalloc(8);
-
-    terminalWriteString("\nb address: 0x");
-    terminalPutHexNumber(b);
-    terminalWriteString("\nc address: 0x");
-    terminalPutHexNumber(c);
-    terminalWriteString("\nFreeing memory now\n");
-
-    kfree(b);
-    kfree(c);
-
-    terminalWriteString("\nDone freeing memory now\n");
-
-    uint32_t d = kmalloc(1000);
-    uint32_t e = kmalloc(8);
-    terminalWriteString("\nd address: 0x");
-    terminalPutHexNumber(d);
-    terminalWriteString("\ne address: 0x");
-    terminalPutHexNumber(e);
-
-    kfree(d);
-    kfree(e);
+    writeSerialString(COM1,"This is my debug message\n");
 
     //loop forever 
     for(;;){

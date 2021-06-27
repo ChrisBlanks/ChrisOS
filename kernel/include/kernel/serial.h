@@ -60,10 +60,11 @@ uint32_t initSerialComms();
 uint8_t setupCOMPortDefaults(uint32_t  port_address);
 uint8_t setupCOMPort(uint32_t  port_address, uint32_t baud_rate,uint32_t mode_flags);
 
-uint8_t updateSerialBaudRate(uint32_t  port_address, uint32_t baud_rate);
-uint8_t updateSerialPortMode(uint32_t  port_address, uint32_t mode_flags);
+void updateSerialBaudRate(uint32_t  port_address, uint32_t baud_rate);
+void updateSerialPortMode(uint32_t  port_address, uint32_t mode_flags);
 
 char receiveSerialData(uint32_t  port_address);
 void writeSerialData(uint32_t  port_address, char data);
+void writeSerialString(uint32_t  port_address, char* string);
 
 #endif
