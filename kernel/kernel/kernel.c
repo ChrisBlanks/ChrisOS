@@ -10,6 +10,7 @@
 #include <kernel/paging.h>
 #include <kernel/kheap.h>
 #include <kernel/serial.h>
+#include <kernel/serial_logger.h>
 
 
 void displayOSDetails(){
@@ -52,13 +53,13 @@ void kernel_main(void){
     initTimer(DEFAULT_TIMER_FREQ);
     initKeyboard();
     initSerialComms();
+    initializeLogger(COM1);
+    initializePaging();
 
     displayOSName();
     displayOSDetails();
-
-    initializePaging();
-
-    writeSerialString(COM1,"This is my debug message\n");
+    
+    logGeneralInfo("Operating system has been initialized");
 
     //loop forever 
     for(;;){

@@ -16,7 +16,7 @@ static void serialCommsHandler(registers_t regs);
 
 uint32_t initSerialComms(){
 
-    uint8_t com1Result = setupCOMPortDefaults(COM1);
+    uint8_t com1Result = setupCOMPortDefaults(COM1_ADDRESS);
 
     registerInterruptHandler(IRQ4, &serialCommsHandler); //setup IRQ handler/callback
 
@@ -98,6 +98,6 @@ static uint8_t isTransmitBufferEmpty(uint32_t  port_address){
 
 
 static void serialCommsHandler(registers_t regs){
-    char c = receiveSerialData(COM1);
+    char c = receiveSerialData(COM1_ADDRESS);
     terminalWriteString(&c);
 }
