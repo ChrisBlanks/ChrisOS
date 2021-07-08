@@ -6,20 +6,30 @@
 
 #define MAX_FILE_NAME_LENGTH 128
 
+///node flags definitions
+#define FS_FILE        0x01
+#define FS_DIRECTORY   0x02
+#define FS_CHARDEVICE  0x03
+#define FS_BLOCKDEVICE 0x04
+#define FS_PIPE        0x05
+#define FS_SYMLINK     0x06
+//skipped 0x07 to allow FS_MOUNTPOINT to be OR'd w/ FS_DIRECTORY
+#define FS_MOUNTPOINT  0x08  
 
-//typedefs
+///typedefs
 
 typedef struct fs_node fs_node_t;
+typedef struct dirent dirent_t;
 
 typedef uint32_t (*read_type_t)(fs_node_t*,uint32_t,uint32_t,uint8_t*);
 typedef uint32_t (*write_type_t)(fs_node_t*,uint32_t,uint32_t,uint8_t*);
-typedef void (*open_type_t)(fs_node_t*);
+typedef void (*open_type_t)(fs_node_t*,uint8_t,uint8_t write);
 typedef void (*close_type_t)(fs_node_t*);
-typedef struct dirent* (*readdir_type_t)(fs_node_t*,uint32_t);
-typedef struct fs_node_t* (*finddir_type_t)(fs_node_t*,char *name); 
+typedef dirent_t* (*readdir_type_t)(fs_node_t*,uint32_t);
+typedef fs_node_t* (*finddir_type_t)(fs_node_t*,char *name); 
 
-//struct defintions
 
+///struct defintions
 struct fs_node {
     char file_name[MAX_FILE_NAME_LENGTH];
 
@@ -43,5 +53,22 @@ struct fs_node {
     
 };
 
+struct dirent { //returned by readdir call 
+   char file_name[128]; 
+   uint32_t inode;  //inode number
+};
+
+
+///extern variables
+extern fs_node_t* fs_root; //file system root node
+
+///function declarations
+uint32_t readFs(fs_node_t* node, uint32_t offset, uint32_t size, uint8_t* buffer);
+uint32_t writeFs(fs_node_t* node, uint32_t offset, uint32_t size, uint8_t* buffer);
+void openFs(fs_node_t* node, uint8_t read, uint8_t write);
+void closeFs(fs_node_t* node);
+
+dirent_t* readDirFs(fs_node_t* node, uint32_t index);
+fs_node_t* findDirFs(fs_node_t* node, char* name);
 
 #endif
